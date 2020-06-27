@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<head>
+<link rel = "stylesheet" href="/static/colorbox.css">
+<link rel = "stylesheet" href = "/static/markers.css" />
+<link href= "https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/js/jquery.colorbox-min.js" type="text/javascript"></script>
+<script type="text/javascript">
+          var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+<script>
+		$(document).ready(function(){
+			$(".ajax").colorbox();
+		});
+
+    $(function(){
+        $.getJSON($SCRIPT_ROOT + '/_get_markers', {},
+        function(markers) {
+          doMarkers(markers)
+        });
+        camicon = L.divIcon({
+		  className: 'custom-div-icon',
+          html: "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='material-icons'>local_see</i>",
+          iconSize: [30, 42],
+          iconAnchor: [15, 42],
+          popupAnchor: [0, -20]
+        });
+        //var customPopup=null;
+        //buildPUhtml(function(customPopup){});
+    });
+
+    function doMarkers(markers)
+    {
+     //var container = [] //$('<div />');
+     var containers = [];
+     for (let i=0;i<markers.length; i++){
+              if (markers[i].lat != undefined){
+                var customPopup = "Test";
+                buildPUhtml(i+1, function(customPopup){
+
+                  var customOptions = {
+                      'maxWidth': '400',
+                      'width': '200',
+                      'className' : 'popupCustom'
+                  }
+                  console.log(customPopup);
+                  $(containers).appendTo('<div />');
+                  $(containers).eq(i).html(customPopup);
+                  var marker = L.marker([markers[i].lat, markers[i].lng], {icon: camicon}).bindPopup(customPopup, customOptions).bindTooltip(markers[i].txt).addTo(map);
+                  //bindPopup(customPopup, customOptions).   .addTo(map)
+                  //marker.bindPopup(container[0], customOptions);
+                });
+              }
+            }
+        }
+/*
+    function buildPUhtml(m, callback) {
+         var str=null;
+         $.getJSON($SCRIPT_ROOT + '/_get_list', {'mid': m},
+         function(data) {
+               var htmlString=[];
+               for (var i=0;i<data.length; i++) {
+                 htmlString.push("<a href=" + data[i].url + " onClick='return clicked(this)'>" + data[i].txt + "</a>");
+                 //var j = i+1; var ind = j.toString();
+                 //htmlString.push("<a href='#' onClick='clicked(this)'>" + ind + '.' + data[i].txt + '</a>');
+            }
+            var str = htmlString.join("<br/>");
+            callback(str);
+        });
+    } */
+//<a class='gallery' href='/static/agora.jpg' onClick='return clicked(this)'>Photo_1</a>
+    function buildPUhtml(m, callback) {
+         var str=null;
+         $.getJSON($SCRIPT_ROOT + '/_get_list', {'mid': m},
+         function(data) {
+               var htmlString=[];
+               for (var i=0;i<data.length; i++) {
+                 htmlString.push("<a class='ajax cboxElement' href='" + data[i].url + "'>" + data[i].txt + "</a>");
+                 //htmlString.push("<a class='gallery' href=" + data[i].url + " onClick='return clicked(this)'>" + data[i].txt + "</a>");
+                 //var j = i+1; var ind = j.toString();
+                 //htmlString.push("<a href='#' onClick='clicked(this)'>" + ind + '.' + data[i].txt + '</a>');
+            }
+            var str = htmlString.join("<br/>");
+            callback(str);
+        });
+    }
+
+
+    function clicked(event) {
+        var sref = event.getAttribute("href");
+        //jQuery('a.gallery').colorbox();
+        ////JQuery(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+        //alert("Clicked it! " + sref);
+        /*  $(function(){
+            $.getJSON($SCRIPT_ROOT + '/_get_content', { linkRef: sref }, function(data) {});
+          }); */
+        //});
+        return false;
+    }
+
+</script>
+
+</head>
+<body>
+      <div id = "map" style = "width: 900px; height: 580px"></div>
+      <script>
+         // Creating map options
+         var mapOptions = {
+            center: [52.060750, -0.81522524],
+            zoom: 15
+         }
+
+         // Creating a map object
+         var map = new L.map('map', mapOptions);
+
+         // Creating a Layer object
+         var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+         // Adding layer to the map
+         map.addLayer(layer);
+
+      </script>
+      <p><a href="/index">Index</a></p>
+      <p><a class='ajax' href="static/boxes/wolvertoncollege.html" title="Link">Outside HTML1 (Ajax)</a></p>
+</body>
