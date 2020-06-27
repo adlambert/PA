@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block content %}
+{% block app_content %}
 <head>
 <script
   src="https://code.jquery.com/jquery-3.5.0.min.js"
@@ -7,30 +7,10 @@
   crossorigin="anonymous"></script>
   <script type="text/javascript">
           var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script>
+  </script>
 </head>
 <body>
-<script type=text/javascript>
-  $(function() {
-    $('a#calculate').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
-        a: $('input[name="a"]').val(),
-        b: $('input[name="b"]').val()
-      }, function(data) {
-        $("#result").text(data.result);
-      });
-      return false;
-    });
-  });
-</script>
-<!--<h1>jQuery Example</h1>
-<p><input type=text size=5 name=a> +
-   <input type=text size=5 name=b> =
-   <span id=result>?</span>
-<p><a href=# id=calculate>calculate server side</a></p>
-<p><a href="/map1">Map</a></p>
-<p><a href="/_get_markers">JSON Markers</a></p>
-<p><a href="/_template_test">Test Template</a></p>
-<p><a href="/boxtest">Box Test</a></p> -->
+
+
 </body>
 {% endblock %}

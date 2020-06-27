@@ -1,5 +1,3 @@
-{% extends "base.html" %}
-{% block content %}
 <!DOCTYPE HTML>
 <head>
 <link rel = "stylesheet" href="/static/colorbox.css">
@@ -27,8 +25,6 @@
           iconAnchor: [15, 42],
           popupAnchor: [0, -20]
         });
-        //var customPopup=null;
-        //buildPUhtml(function(customPopup){});
     });
 
     function doMarkers(markers)
@@ -38,32 +34,21 @@
               if (markers[i].lat != undefined){
                 var customPopup = "Test";
                 buildPUhtml(i+1, function(customPopup){
-
                   var customOptions = {
                       'maxWidth': '400',
                       'width': '200',
                       'className' : 'popupCustom'
                   }
-                  console.log(customPopup);
-                  //$(containers).appendTo('<div />');
-                  //$(containers).eq(i).html(customPopup);
+                  // console.log(customPopup);
                   var marker = L.marker([markers[i].lat, markers[i].lng], {icon: camicon}).bindPopup(customPopup, customOptions).bindTooltip(markers[i].txt);
                   marker.addTo(map);
-                  //bindPopup(customPopup, customOptions).   .addTo(map)
-                  //marker.bindPopup(container[0], customOptions);
                   if (count++ == markers.length) {
-                      /*jQuery(function(){
-		                //$(".ajax").colorbox();
-		                console.log('here');
-		                $("a.group1").colorbox({rel:'group1'});
-	                  }).attr('rel', 'group1');*/
 	                  $('.loader').css('display', 'none');
                   }
                 });
              }
       }
     }
-
 
     function buildPUhtml(m, callback) {
          var str=null;
@@ -72,9 +57,6 @@
                var htmlString=[];
                for (var i=0;i<data.length; i++) {
                  htmlString.push("<a class='group1' href='" + data[i].url + "' title='Item ID: " + data[i].id.toString() + "'>" + data[i].txt + "</a>");
-                 //htmlString.push("<a class='gallery' href=" + data[i].url + " onClick='return clicked(this)'>" + data[i].txt + "</a>");
-                 //var j = i+1; var ind = j.toString();
-                 //htmlString.push("<a href='#' onClick='clicked(this)'>" + ind + '.' + data[i].txt + '</a>');
             }
             var str = htmlString.join("<br/>");
             callback(str);
@@ -87,27 +69,19 @@
 <body>
       <div id = "map" style = "width: 900px; height: 580px"></div>
       <script>
-         // Creating map options
          var mapOptions = {
             center: [52.060750, -0.81522524],
             zoom: 15
          }
 
-         // Creating a map object
          var map = new L.map('map', mapOptions);
-
-         // Creating a Layer object
          var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-         // Adding layer to the map
          map.addLayer(layer);
 
          map.on('popupopen', function(e) {
              $("a.group1").colorbox({rel:'group1'});
-             console.log('popup');
          });
 
       </script>
       <div class="loader"> </div>
 </body>
-{% endblock %}

@@ -114,14 +114,6 @@ function initComparisons() {
 
 function feedbackForm() {
 
- /* $.ajax({
-    url: '/_feedbackform',
-    data: JSON.stringify(),
-    method: 'POST',
-    contentType: 'application/json',
-    success: function() {}
-  });*/
-
   var t= $.colorbox.element()[0].title;
   console.log(t);
   window.location = "/_feedbackform?title="+t;

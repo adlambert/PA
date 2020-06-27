@@ -31,20 +31,6 @@ def get_list():
     content_schema = subContentSchema(many=True)
     return jsonify(content_schema.dump(contentList))
 
-@app.route('/_template_test')
-def template_test():
-    return render_template('extends_test.html')
-
-@app.route('/boxtest')
-def boxtest():
-    return render_template('boxes/wolvertoncollege.html')
-
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
-
 @app.route('/_feedbackform', methods=['GET', 'POST'])
 def feedbackform():
     title = request.args.get('title', None)
